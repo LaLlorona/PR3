@@ -1,0 +1,71 @@
+body {
+    background-color: #eee;
+}
+
+body {
+    background-color: #eee;
+}
+
+table,tr,td{
+    font-family : "Times New Roman";
+    border-bottom : 1px solid #c5c5c5;
+    border-collapse: collapse;
+    padding : 3px;
+
+
+
+}
+
+.mainRow{
+    font-weight : bold;
+    border-bottom : 3px solid black;
+    border-collapse: collapse;
+}
+
+.mainMessage{
+    font-family:"ZCOOL QingKe HuangYou";
+    font-size : 35px;
+
+}
+
+.center-div
+{
+
+
+    /*
+    position:absolute;
+    left:50%;
+
+    margin-left:-150px;
+    */
+    width: 500px;
+    margin : 0 auto;
+
+
+}
+
+.rightRow{
+    color : green;
+
+}
+
+.wrongRow{
+    color : Red;
+
+
+}
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+    height: 200px;
+}
+
+/*your code here*/

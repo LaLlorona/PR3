@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Capital Game!</title>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />  <link href="./capital_game.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ZCOOL QingKe HuangYou">
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+  </head>
+  <body>
+    <!--Your HTML here-->
+    <div class = center-div>
+      <!--Your code here-->
+      <h1 class = "mainMessage">Do you know the capital of this country?</h1>
+
+      <table align = "left" id = "result_table">
+
+        <!--<tr style="font-weight:bold">-->
+        <tr class = "mainRow">
+
+          <td>Country</td>
+          <td>Capital</td>
+          <td>Answer</td>
+
+        </tr>
+        <tr>
+          <td id="pr2_question"></td>
+          <td>
+            <input type="text"  name = "pr2_answer" id = "pr2_answer">
+
+
+          </td>
+          <td><input type="button" value = "SeeAnswer" id = "pr2_submit"></td>
+        </tr>
+
+        <tr>
+          <td colspan="3">
+            <input type="radio" name="choose" id = "all"  value="all"> All
+            <input type="radio" name="choose" id = "correct" value="correct"> Correct Only
+            <input type="radio" name="choose" id = "wrong" value="wrong"> Wrong Only
+            <input type="button" value = "clear" id = "clear_button">
+          </td>
+
+
+
+
+        </tr>
+
+
+
+
+      </table>
+    </div>
+
+    <script src="jquery/js/jquery-1.9.0.min.js"></script>
+    <script src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script src="./country_capital_pairs.js"></script>
+    <script src="./capital_game.js"></script>
+  </body>
+</html>
