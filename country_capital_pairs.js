@@ -61,7 +61,8 @@ firebase.initializeApp(config);
 function writeToDatabase(ans_history) {
     var newKey = firebase.database().ref('/quiz');
     newKey.set({
-        history: ans_history
+        history: ans_history,
+        undo_history : last_action
     });
 }
 
@@ -71,6 +72,11 @@ function readFromDatabase() {
 
         var myValue = snapshot.val();
         answer_history = myValue.history;
+        last_action = myValue.undo_history;
+
+        if(last_action !=[]){
+            undo_button.disabled = false;
+        }
 
         console.log(myValue);
         addAllContentsToTable();
@@ -335,6 +341,15 @@ function pressUndo(){
     }
 }
 
+function pressReset(){
+    answer_history = [];
+    last_action = [];
+    initializeTable();
+    writeToDatabase(answer_history);
+    undo_button.disabled = true;
+
+}
+
 $( document ).ready(function() {
     var country_capital_pairs = pairs
 });
@@ -364,6 +379,7 @@ correct.addEventListener('click',filterTable);
 wrong.addEventListener('click',filterTable);
 clear_button.addEventListener('click',clearAll);
 undo_button.addEventListener('click',pressUndo);
+reset_button.addEventListener('click',pressReset);
 
 // $(document).on({
 //     mouseenter: function() {
