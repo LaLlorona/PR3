@@ -4,6 +4,7 @@ var pairs = [
 
 let answer_history = [];
 let capitals = [];
+let last_action = [];
 var config = {
     apiKey: "AIzaSyBCb_mHdtDmueg4k0nqMYeDXiAzlmqPwBs",
     authDomain: "cs374-kkm.firebaseapp.com",
@@ -87,7 +88,10 @@ let result_table = document.getElementById("result_table");
 let all = document.getElementById("all");
 let correct = document.getElementById("correct");
 let wrong = document.getElementById("wrong");
-let clear_button = document.getElementById('clear_button');
+let clear_button = document.getElementById('pr3_clear');
+let google_map = document.getElementById('map');
+let undo_button = document.getElementById('pr3_undo');
+let reset_button = document.getElementById('pr3_reset');
 let id_count ;
 
 
@@ -110,18 +114,25 @@ function chooseQuestion(){
 }
 
 function refreshQuestion(){
-    fillContent(country, chooseQuestion());
+    let current_country = chooseQuestion();
+    fillContent(country,current_country);
     answer.value = "";
+    google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${current_country}&maptype=roadmap&language=en`
+
 }
 
 function checkAnswer(){
     id_count =  new Date().getTime();
     if (answer.value.toUpperCase() ===answer_pair.capital.toUpperCase()){
         answer_history.push([answer_pair.country,answer.value,"correct",answer_pair.capital,id_count])
+        last_action = ['see_answer',[answer_pair.country,answer.value,"correct",answer_pair.capital,id_count]]
     }
     else{
         answer_history.push([answer_pair.country,answer.value,"wrong",answer_pair.capital,id_count])
+        last_action = ['see_answer',[answer_pair.country,answer.value,"wrong",answer_pair.capital,id_count]]
     }
+    undo_button.disabled = false;
+
 
     writeToDatabase(answer_history)
 }
@@ -212,12 +223,16 @@ function deleteById(id,callback){
     for (var i = 0 ; i < answer_history.length; i++){
         if (answer_history[i][4] === id){
             console.log("well perfoming");
+            last_action = ['delete',answer_history[i]]
             answer_history.splice(i,1);
+
         }
         // if(i === answer_history.length-1){
         //     writeToDatabase(answer_history)
         // }
     }
+
+
 
     console.log(answer_history);
 
@@ -228,7 +243,8 @@ function deleteById(id,callback){
     initializeTable();
 
     addAllContentsToTable();
-    refreshQuestion();
+    //refreshQuestion();
+    undo_button.disabled = false;
 
 
 }
@@ -256,9 +272,12 @@ function filterTable(){
 }
 
 function clearAll(){
+    last_action = ['clear',answer_history];
     answer_history = [];
+
     writeToDatabase(answer_history);
     initializeTable();
+    undo_button.disabled = false;
 }
 
 function checkEnter(event){
@@ -271,6 +290,46 @@ function enterkey() {
 
         // 엔터키가 눌렸을 때 실행할 내용
         updateTable();
+
+
+    }
+}
+function pressUndo(){
+    if (last_action[0] ==='see_answer'){
+        console.log('undo pressed when previous is see_answer')
+
+        deleteById(last_action[1][4],writeToDatabase);
+
+        last_action = ["delete",last_action[1]]
+
+    }
+    else if(last_action[0] === 'clear'){
+
+        console.log('undo pressed when previous is clear')
+
+        answer_history = last_action[1];
+
+        writeToDatabase(answer_history);
+        initializeTable();
+        addAllContentsToTable();
+
+        last_action = ["addAll",null]
+
+    }
+    else if(last_action[0]==='delete'){
+        console.log('undo pressed when previous is delete')
+
+        answer_history.push(last_action[1]);
+        last_action = ['see_answer',last_action[1]]
+        writeToDatabase(answer_history);
+        initializeTable();
+        addAllContentsToTable();
+
+    }
+    else {//
+        console.log('undo pressed when previous is clear')
+        last_action = ['clear',answer_history]
+        clearAll();
 
 
     }
@@ -295,12 +354,59 @@ $(function() {
     });
 });
 
+
+
+
 submit_button.addEventListener('click',updateTable);
 answer.onkeydown = enterkey;
 all.addEventListener('click',filterTable);
 correct.addEventListener('click',filterTable);
 wrong.addEventListener('click',filterTable);
 clear_button.addEventListener('click',clearAll);
+undo_button.addEventListener('click',pressUndo);
+
+// $(document).on({
+//     mouseenter: function() {
+//         // var that = this;
+//         // timer = setTimeout(function(){
+//         //     google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
+//         // }, 1000);
+//         console.log('hover')
+//
+//     },
+//     mouseleave: function() {
+//         // google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
+//         // clearTimeout(timer);
+//         console.log('leave')
+//     }
+// }, "td");​
+// var timer;
+// $( "td" ).hover(
+//     function() {
+//
+//         var that = this;
+//         console.log(that.innerText)
+//         timer = setTimeout(function(){
+//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
+//          }, 1000);
+//     }, function() {
+//         console.log(country.innerText)
+//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
+//         clearTimeout(timer);
+//     }
+// );
+// var timer;
+// $("td").mouseenter(function() {
+//     var that = this;
+//     console.log('hover')
+//     timer = setTimeout(function(){
+//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
+//     }, 1000);
+// }).mouseleave(function() {
+//     console.log('leave')
+//     google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
+//     clearTimeout(timer);
+// });
 
 
 
