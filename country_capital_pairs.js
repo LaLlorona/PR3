@@ -15,9 +15,9 @@ var config = {
 };
 
 function csvJSON(csv){
-    var lines=csv.split("\r\n");
-    var result = [];
-    var headers=lines[0].split(",");
+    let lines=csv.split("\r\n");
+    let result = [];
+    let headers=lines[0].split(",");
     for(var i=1;i<lines.length;i++){
         var obj = {};
         var currentline=lines[i].split(",");
@@ -84,8 +84,6 @@ function readFromDatabase() {
     });
 }
 
-
-
 let country = document.getElementById("pr2_question");
 let answer = document.getElementById("pr2_answer");
 let submit_button = document.getElementById("pr2_submit");
@@ -106,15 +104,11 @@ function getRandomInt(min, max) {
 }
 
 function fillContent(divObj, content) {
-    /*
-      Fill the contents of the object "divObj" with the string "content"
-    */
     divObj.innerHTML = content;
-    //왼쪽 테이블을 업데이트 할 때 이 함수를 사용할 것이다.
 }
 
 function chooseQuestion(){
-    answer_pair = pairs[getRandomInt(0,171)];
+    answer_pair = pairs[getRandomInt(0,205)];
     current_answer = answer_pair.capital;
     return answer_pair.country;
 }
@@ -140,6 +134,8 @@ function checkAnswer(){
     undo_button.disabled = false;
 
 
+
+
     writeToDatabase(answer_history)
 }
 
@@ -163,21 +159,23 @@ function addAllContentsToTable(){
         var col4 = row.insertCell(3);
 
         if (answer_history[i][2]==="correct"){
-            col1.innerHTML = answer_history[i][0];
+            col1.innerHTML = `<div class = 'past_country'> ${answer_history[i][0]} </div>`;
             col1.style.color = "green";
+
             col2.innerHTML = answer_history[i][1];
             col2.style.color = "green";
 
-            col3.innerHTML = `${answer_history[i][1]}<input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
+            col3.innerHTML = `<div class = 'past_capital'>${answer_history[i][3]}</div><input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
 
             col3.style.color = "green";
         }
         else{
-            col1.innerHTML = answer_history[i][0];
+            // col1.innerHTML = answer_history[i][0];
+            col1.innerHTML = `<div class = 'past_country'> ${answer_history[i][0]} </div>`;
             col1.style.color = "red";
             col2.innerHTML = "<del>"+answer_history[i][1]+"<del>";
             col2.style.color = "red";
-            col3.innerHTML = `${answer_history[i][3]}<input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
+            col3.innerHTML = `<div class = 'past_capital'>${answer_history[i][3]}</div><input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
             col3.style.color = "red";
         }
     }
@@ -193,11 +191,11 @@ function addCorrectContentsToTable(){
             var col3 = row.insertCell(2);
             var col4 = row.insertCell(3);
 
-            col1.innerHTML = answer_history[i][0];
+            col1.innerHTML  = `<div class = 'past_country'> ${answer_history[i][0]} </div>`;
             col1.style.color = "green";
             col2.innerHTML = answer_history[i][1];
             col2.style.color = "green";
-            col3.innerHTML =`${answer_history[i][1]}<input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
+            col3.innerHTML = `<div class = 'past_capital'>${answer_history[i][3]}</div><input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
             col3.style.color = "green";
         }
     }
@@ -212,11 +210,11 @@ function addWrongContentsToTable(){
             var col2 = row.insertCell(1);
             var col3 = row.insertCell(2);
             var col4 = row.insertCell(3);
-            col1.innerHTML = answer_history[i][0];
+            col1.innerHTML  = `<div class = 'past_country'> ${answer_history[i][0]} </div>`;
             col1.style.color = "red";
             col2.innerHTML = "<del>"+answer_history[i][1]+"<del>";
             col2.style.color = "red";
-            col3.innerHTML = `${answer_history[i][3]}<input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
+            col3.innerHTML = `<div class = 'past_capital'>${answer_history[i][3]}</div><input type = 'button' value = 'delete' onclick = 'deleteById(${answer_history[i][4]},writeToDatabase)'>`
             col3.style.color = "red";
         }
     }
@@ -233,9 +231,7 @@ function deleteById(id,callback){
             answer_history.splice(i,1);
 
         }
-        // if(i === answer_history.length-1){
-        //     writeToDatabase(answer_history)
-        // }
+
     }
 
 
@@ -284,7 +280,9 @@ function clearAll(){
     writeToDatabase(answer_history);
     initializeTable();
     undo_button.disabled = false;
+    answer_history = []; //왜 이런 문제가 생기는가?
 }
+
 
 function checkEnter(event){
     if(event.keyCode == 13){
@@ -381,48 +379,39 @@ clear_button.addEventListener('click',clearAll);
 undo_button.addEventListener('click',pressUndo);
 reset_button.addEventListener('click',pressReset);
 
-// $(document).on({
-//     mouseenter: function() {
-//         // var that = this;
-//         // timer = setTimeout(function(){
-//         //     google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
-//         // }, 1000);
-//         console.log('hover')
-//
-//     },
-//     mouseleave: function() {
-//         // google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
-//         // clearTimeout(timer);
-//         console.log('leave')
-//     }
-// }, "td");​
-// var timer;
-// $( "td" ).hover(
-//     function() {
-//
-//         var that = this;
-//         console.log(that.innerText)
-//         timer = setTimeout(function(){
-//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
-//          }, 1000);
-//     }, function() {
-//         console.log(country.innerText)
-//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
-//         clearTimeout(timer);
-//     }
-// );
-// var timer;
-// $("td").mouseenter(function() {
-//     var that = this;
-//     console.log('hover')
-//     timer = setTimeout(function(){
-//         google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
-//     }, 1000);
-// }).mouseleave(function() {
-//     console.log('leave')
-//     google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
-//     clearTimeout(timer);
-// });
 
+var timer;
+$(document).on('mouseenter','.past_country',function() {
 
+    var that = this;
+    console.log(that.innerText)
+    timer = setTimeout(function(){
+        google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en`
+        google_map.style = "border : 1px black solid"
+    }, 1000);
+    }
+);
 
+$(document).on('mouseleave','.past_country',function(){
+    clearTimeout(timer);
+    google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
+    google_map.style = "border: 0"
+
+})
+$(document).on('mouseenter','.past_capital',function() {
+
+        var that = this;
+        console.log(that.innerText)
+        timer = setTimeout(function(){
+            google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${that.innerText}&maptype=roadmap&language=en&zoom=5`
+            google_map.style = "border : 1px black solid"
+        }, 1000);
+    }
+);
+
+$(document).on('mouseleave','.past_capital',function(){
+    clearTimeout(timer);
+    google_map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=${country.innerText}&maptype=roadmap&language=en`
+    google_map.style = "border: 0"
+
+})

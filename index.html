@@ -11,15 +11,16 @@
   </head>
   <body>
     <!--Your HTML here-->
-    <iframe id = "map"
-            width="500"
-            height="400"
-            frameborder="0" style="border:0"
 
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=Space+Needle,Seattle+WA&maptype=roadmap&language=en" allowfullscreen
-    >
-    </iframe>
     <div class = center-div>
+      <iframe id = "map"
+              width="500"
+              height="400"
+              frameborder="0" style="border:0"
+
+              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBO_WwFts0d4UEd2BBjxoBTTqLHvi0FyqA&q=Space+Needle,Seattle+WA&maptype=roadmap&language=en" allowfullscreen
+      >
+      </iframe>
       <!--Your code here-->
       <h1 class = "mainMessage">Do you know the capital of this country?</h1>
 
@@ -28,7 +29,8 @@
         <!--<tr style="font-weight:bold">-->
         <tr class = "mainRow">
 
-          <td>Country</td>
+          <!--<td>Country</td>-->
+          <td><div class = "hoverable">Country</div></td>
           <td>Capital</td>
           <td>Answer</td>
 
