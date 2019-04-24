@@ -123,6 +123,9 @@ function refreshQuestion(){
 
 function checkAnswer(){
     id_count =  new Date().getTime();
+    if (answer_history == undefined){
+        answer_history = [];
+    } // answer_history 가 왜 자꾸 undefined 가 되는가?
     if (answer.value.toUpperCase() ===answer_pair.capital.toUpperCase()){
         answer_history.push([answer_pair.country,answer.value,"correct",answer_pair.capital,id_count])
         last_action.push(['see_answer',[answer_pair.country,answer.value,"correct",answer_pair.capital,id_count]])
@@ -234,12 +237,17 @@ function deleteById(id,callback){
 
     }
 
+
     console.log(answer_history);
     callback(answer_history); //왜 callback 이 여기에 있으면 잘 작동하는가?
     initializeTable();
     addAllContentsToTable();
     //refreshQuestion();
     undo_button.disabled = false;
+    if (answer_history == undefined){
+        answer_history = [];
+    } // answer_history 가 왜 자꾸 undefined 가 되는가?
+
 }
 
 function deleteByIdWithOutPush(id,callback){
@@ -259,6 +267,9 @@ function deleteByIdWithOutPush(id,callback){
     addAllContentsToTable();
     //refreshQuestion();
     undo_button.disabled = false;
+    if (answer_history == undefined){
+        answer_history = [];
+    } // answer_history 가 왜 자꾸 undefined 가 되는가?
 }
 
 function updateTable(){

@@ -28,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/country_capital_pairs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="230" column="39" lean-forward="true" selection-start-line="230" selection-start-column="39" selection-end-line="230" selection-end-column="39" />
+            <state relative-caret-position="410">
+              <caret line="214" column="41" lean-forward="true" selection-start-line="214" selection-start-column="41" selection-end-line="214" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -37,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" column="8" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="-95">
+              <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -67,10 +67,11 @@
       <find>updatetable</find>
       <find>refresh</find>
       <find>sudan</find>
-      <find>delete</find>
-      <find>deletebyid</find>
       <find>last_Action</find>
       <find>last_action</find>
+      <find>checkanswer</find>
+      <find>deletebyid</find>
+      <find>delete</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -152,12 +153,12 @@
       <workItem from="1553482797792" duration="1363000" />
       <workItem from="1555908940974" duration="67000" />
       <workItem from="1555910194747" duration="45000" />
-      <workItem from="1556146830377" duration="1038000" />
+      <workItem from="1556146830377" duration="2144000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17868000" />
+    <option name="totallyTimeSpent" value="18974000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="55" y="-7" width="1488" height="878" extended-state="6" />
@@ -205,15 +206,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="8" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+        <state relative-caret-position="-95">
+          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/country_capital_pairs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="230" column="39" lean-forward="true" selection-start-line="230" selection-start-column="39" selection-end-line="230" selection-end-column="39" />
+        <state relative-caret-position="410">
+          <caret line="214" column="41" lean-forward="true" selection-start-line="214" selection-start-column="41" selection-end-line="214" selection-end-column="41" />
         </state>
       </provider>
     </entry>
