@@ -125,11 +125,11 @@ function checkAnswer(){
     id_count =  new Date().getTime();
     if (answer.value.toUpperCase() ===answer_pair.capital.toUpperCase()){
         answer_history.push([answer_pair.country,answer.value,"correct",answer_pair.capital,id_count])
-        last_action = ['see_answer',[answer_pair.country,answer.value,"correct",answer_pair.capital,id_count]]
+        last_action.push(['see_answer',[answer_pair.country,answer.value,"correct",answer_pair.capital,id_count]])
     }
     else{
         answer_history.push([answer_pair.country,answer.value,"wrong",answer_pair.capital,id_count])
-        last_action = ['see_answer',[answer_pair.country,answer.value,"wrong",answer_pair.capital,id_count]]
+        last_action.push(['see_answer',[answer_pair.country,answer.value,"wrong",answer_pair.capital,id_count]])
     }
     undo_button.disabled = false;
 
@@ -227,28 +227,38 @@ function deleteById(id,callback){
     for (var i = 0 ; i < answer_history.length; i++){
         if (answer_history[i][4] === id){
             console.log("well perfoming");
-            last_action = ['delete',answer_history[i]]
+            last_action.push(['delete',answer_history[i]])
             answer_history.splice(i,1);
 
         }
 
     }
 
-
-
     console.log(answer_history);
-
     callback(answer_history); //왜 callback 이 여기에 있으면 잘 작동하는가?
-
-
-
     initializeTable();
-
     addAllContentsToTable();
     //refreshQuestion();
     undo_button.disabled = false;
+}
 
+function deleteByIdWithOutPush(id,callback){
 
+    for (var i = 0 ; i < answer_history.length; i++){
+        if (answer_history[i][4] === id){
+            console.log("well perfoming");
+            answer_history.splice(i,1);
+
+        }
+
+    }
+
+    console.log(answer_history);
+    callback(answer_history); //왜 callback 이 여기에 있으면 잘 작동하는가?
+    initializeTable();
+    addAllContentsToTable();
+    //refreshQuestion();
+    undo_button.disabled = false;
 }
 
 function updateTable(){
@@ -274,7 +284,7 @@ function filterTable(){
 }
 
 function clearAll(){
-    last_action = ['clear',answer_history];
+    last_action.push(['clear',answer_history]);
     answer_history = [];
 
     writeToDatabase(answer_history);
@@ -299,44 +309,57 @@ function enterkey() {
     }
 }
 function pressUndo(){
-    if (last_action[0] ==='see_answer'){
+    let last = last_action.pop();
+    if (last[0] ==='see_answer'){
         console.log('undo pressed when previous is see_answer')
 
-        deleteById(last_action[1][4],writeToDatabase);
+        deleteByIdWithOutPush(last[1][4],writeToDatabase);
 
-        last_action = ["delete",last_action[1]]
+        if(last_action.length == 0){
+            undo_button.disabled = true;
+        }
+
+
 
     }
-    else if(last_action[0] === 'clear'){
+    else if(last[0] === 'clear'){
 
         console.log('undo pressed when previous is clear')
 
-        answer_history = last_action[1];
+        answer_history = last[1];
 
         writeToDatabase(answer_history);
         initializeTable();
         addAllContentsToTable();
 
-        last_action = ["addAll",null]
+        if(last_action.length == 0){
+            undo_button.disabled = true;
+        }
+
+
 
     }
-    else if(last_action[0]==='delete'){
+    else if(last[0]==='delete'){
         console.log('undo pressed when previous is delete')
 
-        answer_history.push(last_action[1]);
-        last_action = ['see_answer',last_action[1]]
+        answer_history.push(last[1]);
+
         writeToDatabase(answer_history);
         initializeTable();
         addAllContentsToTable();
 
-    }
-    else {//
-        console.log('undo pressed when previous is clear')
-        last_action = ['clear',answer_history]
-        clearAll();
-
+        if(last_action.length == 0){
+            undo_button.disabled = true;
+        }
 
     }
+    // else {//
+    //     console.log('undo pressed when previous is clear')
+    //     last_action = ['clear',answer_history]
+    //     clearAll();
+    //
+    //
+    // }
 }
 
 function pressReset(){
